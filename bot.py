@@ -262,7 +262,13 @@ def main():
     app.add_handler(MessageHandler(filters.Regex("^ℹ️ Yordam$"), help_cmd))
     app.add_handler(MessageHandler(filters.Regex("^🏢 Ish beruvchi bo‘lish$"), start))
     print("UDABURON TALABA bot ishga tushdi...")
-    app.run_polling()
+    app.run_webhook(
+    listen="0.0.0.0",
+    port=int(os.environ.get("PORT", 10000)),
+    url_path=TOKEN,
+    webhook_url=f"{os.environ['RENDER_EXTERNAL_URL']}/{TOKEN}",
+    drop_pending_updates=True
+)
 
 if __name__ == "__main__":
     main()
