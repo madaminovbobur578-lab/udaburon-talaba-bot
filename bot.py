@@ -261,8 +261,10 @@ def main():
     app.add_handler(MessageHandler(filters.Regex("^📄 Arizalarim$"), my_applications))
     app.add_handler(MessageHandler(filters.Regex("^ℹ️ Yordam$"), help_cmd))
     app.add_handler(MessageHandler(filters.Regex("^🏢 Ish beruvchi bo‘lish$"), start))
-    print("UDABURON TALABA bot ishga tushdi...")
+    print("UDABURON TALABA bot ishga tushdi.          
+    import asyncio asyncio.set_event_loop(asyncio.new_event_loop())
     app.run_webhook(
+    app.run_webhook(       
     listen="0.0.0.0",
     port=int(os.environ.get("PORT", 10000)),
     url_path=TOKEN,
