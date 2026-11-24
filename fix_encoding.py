@@ -4,9 +4,26 @@ from pathlib import Path
 path = Path("bot.py")
 source = path.read_text(encoding="utf-8")
 
-try:
-    fixed = source.encode("latin-1").decode("utf-8")
-    path.write_text(fixed, encoding="utf-8")
-    print("Emoji va matnlar tuzatildi!")
-except (UnicodeEncodeError, UnicodeDecodeError):
-    print("Fayl allaqachon UTF-8 yoki aralash kodlangan.")
+parts = []
+run = ""
+
+def fix_run(value):
+    try:
+        return value.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return value
+
+for char in source:
+    if ord(char) <= 255:
+        run += char
+    else:
+        parts.append(fix_run(run))
+        parts.append(char)
+        run = ""
+
+parts.append(fix_run(run))
+
+fixed = "".join(parts)
+path.write_text(fixed, encoding="utf-8")
+
+print("Bot matnlari va emojilari tekshirildi!")
