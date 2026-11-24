@@ -77,25 +77,34 @@ def get_user(tg_id):
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = get_user(update.effective_user.id)
-    if user:
+    tg_id = update.effective_user.id
+
+    if is_admin(tg_id):
         await update.message.reply_text(
-            f"Assalomu alaykum, {user[1]}! ð\n"
-            "UDABURON TALABA platformasiga xush kelibsiz.",
-            reply_markup=main_menu(user[0], is_admin(update.effective_user.id))
+            "Assalomu alaykum, admin! 👑\n"
+            "UDABURON TALABA boshqaruv paneliga xush kelibsiz.",
+            reply_markup=main_menu(admin=True)
         )
         return ConversationHandler.END
 
-    keyboard = [["ð Talabaman", "ð¢ Ish beruvchiman"]]
+    user = get_user(tg_id)
+    if user:
+        await update.message.reply_text(
+            f"Assalomu alaykum, {user[1]}! 🎓\n"
+            "UDABURON TALABA platformasiga xush kelibsiz.",
+            reply_markup=main_menu(user[0])
+        )
+        return ConversationHandler.END
+
+    keyboard = [["🎓 Talabaman", "🏢 Ish beruvchiman"]]
     await update.message.reply_text(
-        "Assalomu alaykum! ð\nUDABURON TALABA botiga xush kelibsiz.\n\n"
+        "Assalomu alaykum! 🎓\nUDABURON TALABA botiga xush kelibsiz.\n\n"
         "Davom etish uchun rolingizni tanlang:",
         reply_markup=ReplyKeyboardMarkup(
             keyboard, resize_keyboard=True, one_time_keyboard=True
         )
     )
     return ROLE
-
 
 async def choose_role(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
