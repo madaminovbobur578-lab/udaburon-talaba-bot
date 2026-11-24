@@ -261,7 +261,8 @@ def main():
         port=int(os.environ.get("PORT", 10000)),
         url_path=TOKEN,
         webhook_url=f"{os.environ['RENDER_EXTERNAL_URL']}/{TOKEN}",
-        drop_pending_updates=True
+        drop_pending_updates=True,
+        bootstrap_retries=5
     )
 if __name__ == "__main__":
     main()
