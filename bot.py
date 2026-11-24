@@ -407,14 +407,19 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ], resize_keyboard=True)
     await update.message.reply_text("ð ADMIN PANEL\nKerakli amalni tanlang:", reply_markup=keyboard)
 
-
 async def admin_add_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_admin(update.effective_user.id):
-        await update.message.reply_text("â Ruxsat yoâq.")
-        return
+        await update.message.reply_text("Ruxsat yo‘q.")
+        return ConversationHandler.END
+
     context.user_data["admin_adding_job"] = True
-    await update.message.reply_text("Yangi eâlon qoâshish boshlanadi. Ish nomini kiriting:")
+    context.user_data["posting_as_admin"] = True
+
+    await update.message.reply_text(
+        "➕ Yangi e’lon qo‘shish boshlanadi.\nIsh nomini kiriting:"
+    )
     return JOB_TITLE
+
 
 
 async def admin_list_jobs(update: Update, context: ContextTypes.DEFAULT_TYPE):
